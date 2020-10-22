@@ -1,23 +1,29 @@
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql');
-const { MongoClient } = require("mongodb");
-require('dotenv').config()
+const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader')
+const { loadSchemaSync } = require('@graphql-tools/load')
+const { addResolversToSchema } = require ('@graphql-tools/schema')
+const { join } = require("path");
 
-const {
-    ATLAS_ADMIN_PASSWORD,
-    ATLAS_ADMIN_USERNAME,
-    ATLAS_DB_NAME
-} = process.env
-const uri = `mongodb+srv://${ATLAS_ADMIN_USERNAME}:${ATLAS_ADMIN_PASSWORD}@iprefermysql.nzjl9.mongodb.net/${ATLAS_DB_NAME}?retryWrites=true&w=majority`
+const resolvers = require('./schema/resolvers')
 
-const schema = require('./schema')
+const typeDefs = loadSchemaSync(join(__dirname, './schema/schema.graphql'), { loaders: [new GraphQLFileLoader()] });
 
 const app = express()
 
+const schema = addResolversToSchema({
+    schema: typeDefs,
+    resolvers
+})
+
+// app.use('/graphql', (req, res, next) => {
+//     console.log('arazrazerazr')
+//     next()
+// })
+
 app.use('/graphql', graphqlHTTP({
     schema,
-    graphiql: true
-    // graphiql: process.env.NODE_ENV === "development" ? true : false
+    graphiql: process.env.NODE_ENV === "development" ? true : false
 }))
 
 app.get('/', (req, res) => {

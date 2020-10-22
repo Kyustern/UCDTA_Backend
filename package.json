@@ -5,8 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev-all": "concurrently \"nodemon index.js\" \"cd client && yarn start\"",
-    "dev-back": "nodemon index.js"
+    "dev": "concurrently \"code . && nodemon index.js\" \"cd client && yarn dev\"",
+    "dev-back": "code . && nodemon index.js",
+    "dev-front": "cd client && yarn dev"
   },
   "keywords": [],
   "author": "",
@@ -17,6 +18,8 @@
     "express": "^4.17.1",
     "express-graphql": "^0.11.0",
     "graphql": "^15.3.0",
+    "graphql-tools": "^6.2.4",
+    "graphql-type-long": "^0.1.1",
     "lodash": "^4.17.20",
     "mongodb": "^3.6.2"
   }

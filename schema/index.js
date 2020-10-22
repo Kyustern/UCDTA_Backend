@@ -5,7 +5,8 @@ const {
     GraphQLInt,
     GraphQLSchema,
     GraphQLList,
-    GraphQLNonNull
+    GraphQLNonNull,
+    GraphQLInputObjectType
 } = require('graphql')
 
 const {
@@ -75,11 +76,23 @@ const RootQuery = new GraphQLObjectType({
 //
 // Mutations
 //
+
+const TodoInput = new GraphQLInputObjectType({
+    name: 'Todo',
+    fields: {
+        title: { type: GraphQLString },
+        description: { type: GraphQLString },
+        done: { type: GraphQLBoolean },
+        duration: { type: GraphQLInt },
+        creationTimeStamp: { type: GraphQLInt },
+        creatorId: { type: GraphQLString }
+    }
+})
 const mutation = new GraphQLObjectType({
     name: 'Mutation',
     fields: {
         addTodo: {
-            type: TodoType,
+            type: TodoInput,
             args: {
                 title: { type: new GraphQLNonNull(GraphQLString) },
                 description: { type: new GraphQLNonNull(GraphQLString) },
@@ -97,6 +110,6 @@ const mutation = new GraphQLObjectType({
 })
 
 module.exports = new GraphQLSchema({
-    mutation,
-    query: RootQuery
+    query: RootQuery,
+    mutation
 })

@@ -1,0 +1,54 @@
+scalar GraphQLLong
+
+type User {
+    _id: String!,
+    nickName: String!,
+    firstName: String!,
+    lastName: String!,
+    created: [Todo]!
+}
+
+type Todo {
+    _id: String,
+    title: String!,
+    description: String!,
+    done: Boolean!,
+    duration: Int,
+    creationTimeStamp: Int!,
+    creatorId: String!
+}
+
+input TodoInput {
+    title: String!,
+    description: String!,
+    done: Boolean!,
+    duration: Int,
+    creationTimeStamp: GraphQLLong!,
+    creatorId: String!
+}
+
+input UserInput {
+    nickName: String!,
+    firstName: String!,
+    lastName: String!
+}
+
+type Query {
+    user(id: String!): User!,
+    todo(id: String!): Todo!,
+    todos: [Todo!]!
+}
+
+type Mutation {
+    #Todos
+    replaceTodo(todo: TodoInput!, id: String!): Boolean!
+    createTodo(todo: TodoInput!): Todo!,
+    deleteTodo(id: String!): Boolean!,
+    #Users
+    createUser(user: UserInput!): User!
+}
+    
+schema {
+    query: Query,
+    mutation: Mutation
+}
