@@ -1,0 +1,61 @@
+Arguments: 
+  /home/god/.nvm/versions/node/v12.18.2/bin/node /mnt/c/Program Files (x86)/Yarn/bin/yarn.js add passport.js
+
+PATH: 
+  /home/god/.local/bin:/home/god/.nvm/versions/node/v12.18.2/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/mnt/c/Program Files (x86)/Common Files/Oracle/Java/javapath:/mnt/c/Windows/system32:/mnt/c/Windows:/mnt/c/Windows/System32/Wbem:/mnt/c/Windows/System32/WindowsPowerShell/v1.0/:/mnt/c/Windows/System32/OpenSSH/:/mnt/c/Program Files (x86)/NVIDIA Corporation/PhysX/Common:/mnt/f/Program Files/:/mnt/c/Program Files/Git/cmd:/mnt/c/xampp/php:/mnt/c/ProgramData/ComposerSetup/bin:/mnt/c/ProgramData/chocolatey/bin:/mnt/c/Program Files (x86)/Yarn/bin/:/mnt/c/tools/php74:/mnt/c/WINDOWS/system32:/mnt/c/WINDOWS:/mnt/c/WINDOWS/System32/Wbem:/mnt/c/WINDOWS/System32/WindowsPowerShell/v1.0/:/mnt/c/WINDOWS/System32/OpenSSH/:/mnt/c/Users/Kyustern/AppData/Local/Programs/Python/Python38/Scripts/:/mnt/c/Users/Kyustern/AppData/Local/Programs/Python/Python38/:/mnt/c/Users/Kyustern/AppData/Local/Microsoft/WindowsApps:/mnt/f/Microsoft VS Code/bin:/mnt/c/Users/Kyustern/AppData/Roaming/npm:/mnt/c/Users/Kyustern/AppData/Local/hyper/app-3.0.2/resources/bin:/mnt/c/Users/Kyustern/AppData/Roaming/Composer/vendor/bin:/mnt/c/Program Files/heroku/bin:/mnt/c/Users/Kyustern/AppData/Local/Yarn/bin:/mnt/c/Program Files/OpenSSL-Win64/bin:/snap/bin
+
+Yarn version: 
+  1.22.4
+
+Node version: 
+  12.18.2
+
+Platform: 
+  linux x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/passport.js: Not found
+      at Request.params.callback [as _callback] (/mnt/c/Program Files (x86)/Yarn/lib/cli.js:66096:18)
+      at Request.self.callback (/mnt/c/Program Files (x86)/Yarn/lib/cli.js:140748:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (/mnt/c/Program Files (x86)/Yarn/lib/cli.js:141720:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (/mnt/c/Program Files (x86)/Yarn/lib/cli.js:141642:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1221:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
+
+npm manifest: 
+  {
+    "name": "uctdafs",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "dev": "concurrently \"code . && nodemon index.js\" \"cd client && yarn dev\"",
+      "dev-back": "code . && nodemon index.js",
+      "dev-front": "cd client && yarn dev"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "dayjs": "^1.9.1",
+      "dotenv": "^8.2.0",
+      "express": "^4.17.1",
+      "express-graphql": "^0.11.0",
+      "graphql": "^15.3.0",
+      "graphql-tools": "^6.2.4",
+      "graphql-type-long": "^0.1.1",
+      "lodash": "^4.17.20",
+      "mongodb": "^3.6.2"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

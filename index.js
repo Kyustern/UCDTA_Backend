@@ -1,3 +1,4 @@
+//🔰
 const express = require('express')
 const { graphqlHTTP } = require('express-graphql');
 const { GraphQLFileLoader } = require('@graphql-tools/graphql-file-loader')
@@ -16,11 +17,6 @@ const schema = addResolversToSchema({
     resolvers
 })
 
-// app.use('/graphql', (req, res, next) => {
-//     console.log('arazrazerazr')
-//     next()
-// })
-
 app.use('/graphql', graphqlHTTP({
     schema,
     graphiql: process.env.NODE_ENV === "development" ? true : false
@@ -30,4 +26,5 @@ app.get('/', (req, res) => {
     res.send('AAA')
 })
 
-app.listen(4000, () => console.log('ass'))
+//Always add some emojis to make the code looks a bit fun and keep the existential dread away
+app.listen(4000, () => console.log('📡 Listening; port: 4000'))
