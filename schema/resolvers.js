@@ -1,36 +1,61 @@
 const { find, getAll, getById } = require('../mongoResolvers/read')
 const { deleteDocument, insertDocument, replaceDocument } = require('../mongoResolvers/write')
+const { login, logout, register } = require('../auth')
 
 const GraphQLLong = require('graphql-type-long');
 const { ObjectID } = require('mongodb')
-const { genSalt, hash } = require('bcryptjs')
+
+// single-line functions ( async (parentValue, args) => await stuff ) 
+// could have been more convenient for some resolvers,
+// but adding a console log for debugging was not possible, and reformatting them 
+// everytime i want to do so was just awful
 
 const root = {
     GraphQLLong,
     User: {
-        created: ({ _id }, args) => find({creatorId: _id.toString()}, "todos").then(x => x)
+        created: async ({ _id }, args) => {
+            return await find({creatorId: _id.toString()}, "todos")
+        }
     },
     Query: {
-        user: (parentValue, args) => {
-            return getById(args.id, "users").then(x => x)
+        user: async (parentValue, args) => {
+            const usr = await getById(args.id, "users")
+            console.log("usr", usr)
+            return usr.document
         },
-        todo: (parentValue, args) => getById(args.id, "todos").then(x => x),
-        todos: (parentValue, args) => getAll("todos")
+        todo: async (parentValue, args) => {
+            return await getById(args.id, "todos")
+        },
+        todos: async (parentValue, args) => {
+            return await getAll("todos")
+        },
+        //Auth
+        authTest: async (parentValue, args, req) => {
+
+            if (req.session.userId) {
+                console.log("req.session.userId", req.session.userId)
+                return req.session.userId
+            } else {
+                return "no cookie"
+            }
+            // const salt = await genSalt()
+            // const result = await hash('test', salt)
+            // console.log("lel -> result", result)
+            // return result
+        }
     },
     Mutation: {
-        // Users
-        createUser: async (parentValue, { user }) => {
-            const salt = await genSalt()
-            //if genSalt fails => return error 500 to client
-            user.password = hash(user.password, salt)
-            //insert document
-            const result = await insertDocument(user, "users")
-            //insertDocument returns false if operation failed, so:
-            //if result === false => return error 500 to client
-            //else:
-            return result
+        // Auth
+        register: async (parentValue, { user }, req) => {
+            const registerResult = await register(user, req)
+            return registerResult
         },
-
+        login: async (parentValue, { user }, req) => {
+            return await login(user, req)
+        },
+        logout: async (parentValue, args, req) => {
+            return await logout()
+        },
         // Todos
         createTodo: (parentValue, { todo }) => {
             console.log("creating todo");

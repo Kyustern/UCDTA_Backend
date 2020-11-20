@@ -38,11 +38,14 @@ passport.deserializeUser(async (_id, done) => {
 passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     const {err, documentArray} = await find({email: email.toLowerCase()}, "users")
     //find() returns an array of documents that match the provided query inside the provided collection
-    
     if (err) return done(err)
-    if (documentArray.length === 0 ) return done(null, false, 'Invalid credential')
-
-    const isMatch = await compare(password, hashedPassword)
+    if (documentArray.length === 0 ) return done(false, null, 'Invalid credential')
+    const usr = documentArray[0]
+    const isMatch = await compare(password, usr.password)
+    if (isMatch) {
+        done(null, usr);
+    }
+    return done(false, null, 'Credential incorrect')
 
     User.findOne({ email: email.toLowerCase() }, (err, user) => {
         if (err) { return done(err); }
@@ -64,6 +67,15 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, async (email, passwor
 // Notice the Promise created in the second 'then' statement.  This is done
 // because Passport only supports callbacks, while GraphQL only supports promises
 // for async code!  Awkward!
+
+const signup2 = async ({ email, password, req }) =>  {
+    if (!email || !password) { throw new Error('You must provide an email and password.'); }
+
+    const result = await find({email}, "users")
+
+    if (result.length > 0) throw new Error('Email in use')
+}
+
 function signup({ email, password, req }) {
     const user = new User({ email, password });
     if (!email || !password) { throw new Error('You must provide an email and password.'); }
@@ -91,9 +103,11 @@ function signup({ email, password, req }) {
 function login({ email, password, req }) {
     return new Promise((resolve, reject) => {
         passport.authenticate('local', (err, user) => {
+
             if (!user) { reject('Invalid credentials.') }
 
             req.login(user, () => resolve(user));
+
         })({ body: { email, password } });
     });
 }

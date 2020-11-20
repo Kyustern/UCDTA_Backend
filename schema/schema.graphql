@@ -1,12 +1,10 @@
-### Custom Types ###
+### Custom Types (aka Output types) ###
 scalar GraphQLLong
 
 type User {
     _id: String!,
     email: String!,
-    nickName: String!,
-    firstName: String!,
-    lastName: String!,
+    password: String!,
     created: [Todo]!
 }
 
@@ -31,21 +29,25 @@ input TodoInput {
 }
 
 input UserInput {
-    nickName: String!,
-    firstName: String!,
-    lastName: String!
+    email: String!,
+    password: String
 }
 
 ### Globals ###
 type Query {
     user(id: String!): User!,
     todo(id: String!): Todo!,
-    todos: [Todo!]!
+    todos: [Todo!]!,
+    authTest: String!
 }
 
 type Mutation {
+    #Auth
+    register(user: UserInput!): User,
+    logout: Boolean!,
+    login(user: UserInput!): Boolean!,
     #Todos
-    replaceTodo(todo: TodoInput!, id: String!): Boolean!
+    replaceTodo(todo: TodoInput!, id: String!): Boolean!,
     createTodo(todo: TodoInput!): Todo!,
     deleteTodo(id: String!): Boolean!,
     #Users
@@ -56,3 +58,13 @@ schema {
     query: Query,
     mutation: Mutation
 }
+
+# mutation {
+# 	createUser(user: {
+#     email:"filsdeup@u.te",
+#     password:"fsct"
+#   }) {
+#     email,
+#     password
+#   }
+# }

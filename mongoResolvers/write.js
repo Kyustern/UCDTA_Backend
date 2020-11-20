@@ -1,12 +1,14 @@
 const { createClient, uri} = require('./mongoClientConfiguration')
-    const { ATLAS_DB_NAME } = process.env
+const { ATLAS_DB_NAME } = process.env
+const { ObjectID } = require('mongodb')
 // Mutations
 const insertDocument = async (document, collectionName) => {
     const client = createClient()
     try {
         await client.connect()
         const collection = client.db(ATLAS_DB_NAME).collection(collectionName)
-        await collection.insertOne(document)
+        const result = await collection.insertOne(document)
+        return result
     } catch (error) {
         console.log(error);
         return false
@@ -58,7 +60,7 @@ const replaceDocument = async (newDocument, oldDocumentId, collectionName) => {
         console.log(error);
         return false
     } finally {
-
+        await client.close()
     }
 }
 

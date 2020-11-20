@@ -39,7 +39,7 @@ const find = async (query, collectionName) => {
         console.log("Error getting data from mongoDB", err);
         return {
             err,
-            documentArray: false
+            documentArray: []
         }
     } finally {
         await client.close();
